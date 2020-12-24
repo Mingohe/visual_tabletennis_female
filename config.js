@@ -30,10 +30,10 @@
   reverse: false,
 
   // 类型根据什么字段区分？如果是name，则关闭类型显示
-  divide_by: "type",
+  divide_by: "name",
 
   // 颜色根据什么字段区分？
-  divide_color_by: "type",
+  divide_color_by: "name",
 
   // 字段的值与其对应的颜色值
   // 也可在src/colors.js 中设置
@@ -91,7 +91,7 @@
 
   // 附加信息内容。
   // left label
-  itemLabel: "ITTF 世界乒乓球女子单打历史排名TOP10(20001-2020)",
+  itemLabel: "ITTF 世界乒乓球女子单打历史排名TOP10(2001-2020)",
 
   // right label
   typeLabel: "",
