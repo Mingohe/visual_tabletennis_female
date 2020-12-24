@@ -489,7 +489,7 @@ function draw(data) {
       .duration(2490 * interval_time)
       .attr("y", 0)
       .attr("width", d => xScale(xValue(d)))
-      .attr("fill-opacity", 0.7);
+      .attr("fill-opacity", 0.8);
 
     if (config.rounded_rectangle) {
       d3.selectAll("rect").attr("rx", 0);
@@ -503,7 +503,7 @@ function draw(data) {
         .transition("2")
         .delay(500 * interval_time)
         .duration(2490 * interval_time)
-        .attr("fill-opacity", 0.7)
+        .attr("fill-opacity", 0.8)
         .attr("y", 0)
         .attr("class", function (d) {
           return "label ";
