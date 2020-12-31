@@ -38,7 +38,7 @@
   // 字段的值与其对应的颜色值
   // 也可在src/colors.js 中设置
 
-//   China
+// China
 // Chinese Taipei
 // Belarus
 // Austria
@@ -91,7 +91,8 @@
 
   // 附加信息内容。
   // left label
-  itemLabel: "ITTF 世界乒乓球女子单打历史排名TOP10(2001-2020)",
+  // itemLabel: "ITTF 世界乒乓球女子单打历史排名TOP10(2001-2020)",
+  itemLabel: "",
 
   // right label
   typeLabel: "",
