@@ -128,12 +128,7 @@ function draw(data) {
   config.imgs = Object.assign(config.imgs, external_imgs);
   config.color = Object.assign(config.color, external_colors);
 
-  const margin = {
-    left: left_margin,
-    right: right_margin,
-    top: top_margin,
-    bottom: bottom_margin
-  };
+  const margin = {left: left_margin,right: right_margin,top: top_margin,bottom: bottom_margin};
   var background_color = config.background_color;
 
   d3.select("body").attr("style", "background:" + background_color);
@@ -154,19 +149,11 @@ function draw(data) {
   const xValue = d => Number(d.value);
   const yValue = d => d.name;
 
-  const g = svg
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-  const xAxisG = g
-    .append("g")
-    .attr("transform", `translate(0, ${innerHeight})`);
-  const yAxisG = g.append("g");
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`).attr("id","ggg");
+  const xAxisG = g.append("g").attr("transform", `translate(0, ${innerHeight})`).attr("id","xAxisG");
+  const yAxisG = g.append("g").attr("id",'yAxisG');
 
-  xAxisG
-    .append("text")
-    .attr("class", "axis-label")
-    .attr("x", innerWidth / 2)
-    .attr("y", 100);
+  xAxisG.append("text").attr("class", "axis-label").attr("x", innerWidth / 2).attr("y", 100);
 
   var xScale = d3.scaleLinear();
   if (use_semilogarithmic_coordinate) {
@@ -174,17 +161,10 @@ function draw(data) {
   } else {
     xScale = d3.scaleLinear();
   }
-  const yScale = d3
-    .scaleBand()
-    .paddingInner(0.3)
-    .paddingOuter(0);
+  const yScale = d3.scaleBand().paddingInner(0.3).paddingOuter(0);
 
   const xTicks = 10;
-  const xAxis = d3
-    .axisBottom()
-    .scale(xScale)
-    .ticks(xTicks)
-    .tickPadding(20)
+  const xAxis = d3.axisBottom().scale(xScale).ticks(xTicks).tickPadding(20)
     .tickFormat(d => {
       if (d <= 0) {
         return "";
@@ -193,11 +173,7 @@ function draw(data) {
     })
     .tickSize(-innerHeight);
 
-  const yAxis = d3
-    .axisLeft()
-    .scale(yScale)
-    .tickPadding(5)
-    .tickSize(-innerWidth);
+  const yAxis = d3.axisLeft().scale(yScale).tickPadding(5).tickSize(-innerWidth);
 
   var dateLabel_switch = config.dateLabel_switch;
   var dateLabel_x = config.dateLabel_x;
@@ -231,8 +207,12 @@ function draw(data) {
     .attr("x", item_x)
     .attr("y", text_y);
 
+
+  var portrait = d3.select("#portrait").style("background-image", 'url(./assets/张继科.jpg)')
+
   function dataSort() {
     if (reverse) {
+      /*降序*/
       currentData.sort(function (a, b) {
         if (Number(a.value) == Number(b.value)) {
           var r1 = 0;
@@ -362,8 +342,7 @@ function draw(data) {
     //     .domain(currentData.map(d => d.name).reverse())
     //     .range([innerHeight, 0]);
     // x轴范围
-    // 如果所有数字很大导致拉不开差距
-
+    // 如果所有数字很大导致拉不开差距  
     if (big_value) {
       xScale
         .domain([
@@ -388,6 +367,7 @@ function draw(data) {
             new Date(self.textContent),
             new Date(d.date)
           );
+          console.log('tween text:',d);
           // var prec = (new Date(d.date) + "").split(".");
           // var round = (prec.length > 1) ? Math.pow(10, prec[1].length) : 1;
           return function (t) {
@@ -417,6 +397,7 @@ function draw(data) {
 
     yScale
       .domain(currentData.map(d => d.name).reverse())
+      // .domain(currentData.map(d => d.name).reverse())
       .range([innerHeight, 0]);
 
     var bar = g.selectAll(".bar").data(currentData, function (d) {
@@ -435,6 +416,14 @@ function draw(data) {
         if (d.name.length > 24) return d.name.slice(0, 23) + "...";
         // return d.name;
         return '';
+      });
+      portrait.data(currentData)
+      .transition()
+          .duration(baseTime * interval_time)
+          .ease(d3.easeLinear)
+      .style("background-image",function (d) {
+        let name = d.name.replace(/[·-]/g,"");
+        return "url(./assets/"+ name +".jepg)";
       });
       if (use_counter == true) {
         // 榜首持续时间更新
@@ -804,8 +793,7 @@ function draw(data) {
     }
     avg =
       (Number(currentData[0]["value"]) +
-        Number(currentData[currentData.length - 1]["value"])) /
-      2;
+        Number(currentData[currentData.length - 1]["value"])) /2;
 
     var barExit = bar
       .exit()
@@ -903,8 +891,4 @@ function draw(data) {
       window.clearInterval(inter);
     }
   }, baseTime * interval_time);
-  // setInterval(() => {
-  //     d3.transition()
-  //         .each(change)
-  // }, baseTime * update_rate * interval_time)
 }
